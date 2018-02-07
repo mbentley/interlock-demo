@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo ""
+echo "=================================="
+echo "Begin launching engines..."
+echo "=================================="
 # create docker network
 docker network create --driver bridge --subnet="172.250.1.0/24" dind
 DIND_SUBNET_PREFIX="$(docker network inspect --format '{{range .IPAM.Config}}{{.Subnet}}{{end}}' dind | awk -F '/' '{print $1}' | awk -F '.' '{print $1"."$2"."$3"."}')"
@@ -52,7 +56,9 @@ docker run -d \
   --ip "${DIND_SUBNET_PREFIX}"$((ENGINE_NUM+51)) \
   -p 127.0.0.1:100${ENGINE_NUM}:2375 \
   -p 80:80 \
+  -p 81:81 \
   -p 443:443 \
+  -p 444:444 \
   -v /lib/modules:/lib/modules:ro \
   -v docker${ENGINE_NUM}:/var/lib/docker \
   -v docker${ENGINE_NUM}-etc:/etc/docker \
@@ -76,6 +82,13 @@ docker run -d \
   mbentley/docker-in-docker:ee-test \
   dockerd -s overlay2 -H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375 --registry-mirror http://mirror:5000
 
+echo "=================================="
+echo "End launching engines!"
+echo "=================================="
+echo ""
+echo "=================================="
+echo "Begin Swarm setup..."
+echo "=================================="
 # init swarm
 docker -H tcp://localhost:1001 swarm init
 
@@ -94,3 +107,7 @@ docker -H tcp://localhost:1001 node ls
 
 # add labels
 docker -H tcp://localhost:1001 node update --label-add nodetype=loadbalancer docker2
+echo "=================================="
+echo "End Swarm setup!"
+echo "=================================="
+echo ""

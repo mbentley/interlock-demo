@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo ""
+echo "=================================="
+echo "Begin Interlock setup..."
+echo "=================================="
 # talk to docker1
 export DOCKER_HOST="tcp://localhost:1001"
 
@@ -18,3 +22,8 @@ docker service create \
     --network interlock \
     --config src=service.interlock.conf,target=/config.toml \
     interlockdemo/interlock:a2b1b323 -D run -c /config.toml
+
+echo "=================================="
+echo "End Interlock setup!"
+echo "=================================="
+echo ""
