@@ -4,12 +4,13 @@ echo ""
 echo "=================================="
 echo "Begin demo apps setup..."
 echo "=================================="
+# talk to docker1
 export DOCKER_HOST="tcp://localhost:1001"
 
 # create overlay network
 docker network create -d overlay demo
 
-# create example application
+# create example application that uses an overlay network (like HRM did in UCP 2.x)
 docker service create \
   --name demo-overlay \
   --network demo \
@@ -19,9 +20,9 @@ docker service create \
   --env METADATA="demo-overlay" \
   ehazlett/docker-demo:latest
 
-echo "Your demo app should be available at http://demo.interlock.mac shortly"
+echo -e "\\nYour demo app should be available at http://demo.interlock.mac shortly\\n"
 
-# create example application w/host mode
+# create example application w/host mode (well tested method of routing to apps like Interlock 1.x and others)
 docker service create \
   --name demo-hostmode \
   --detach=false \
@@ -31,7 +32,7 @@ docker service create \
   --env METADATA="demo-hostmode" \
   ehazlett/docker-demo:latest
 
-echo "Your demo app should be available at http://demo-hostmode.interlock.mac shortly"
+echo -e "\\nYour demo app should be available at http://demo-hostmode.interlock.mac shortly\\n"
 echo "=================================="
 echo "End demo apps setup!"
 echo "=================================="
