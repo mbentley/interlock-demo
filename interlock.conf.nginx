@@ -1,0 +1,37 @@
+ListenAddr = ":8080"
+DockerURL = "unix:///var/run/docker.sock"
+PollInterval = "3s"
+
+[Extensions]
+  [Extensions.default]
+    Image = "interlockdemo/interlock-extension-nginx:a2b1b323"
+    Args = ["-D"]
+    Constraints = ["node.role==manager"]
+    ServiceName = "interlock-ext"
+    ProxyImage = "nginx:alpine"
+    ProxyArgs = []
+    ProxyServiceName = "interlock-proxy"
+    ProxyConfigPath = "/etc/nginx/nginx.conf"
+    ProxyReplicas = 2
+    ProxyStopSignal = "SIGQUIT"
+    ProxyStopGracePeriod = "3s"
+    ProxyConstraints = ["node.labels.nodetype==loadbalancer"]
+    PublishMode = "ingress"
+    PublishedPort = 80
+    TargetPort = 80
+    PublishedSSLPort = 443
+    TargetSSLPort = 443
+    [Extensions.default.Config]
+      User = "nginx"
+      PidPath = "/var/run/proxy.pid"
+      WorkerProcesses = 1
+      RlimitNoFile = 65535
+      MaxConnections = 2048
+    [Extensions.default.Labels]
+      extension_name = "foo"
+    [Extensions.default.ContainerLabels]
+      test_container_label = "container"
+    [Extensions.default.ProxyContainerLabels]
+      test_proxy_label = "proxy"
+    [Extensions.default.ProxyLabels]
+      proxy_name = "bar"
