@@ -11,7 +11,11 @@ To begin, execute the `0_launch_all.sh` script:
 $ ./0_launch_all.sh
 ```
 
-This will execute steps 1, 2, and 3 which will launch engines inside of a single engine like Docker for Mac, launch Interlock, and launch two demo apps; one using overlays, the other using host mode to publish ports. You can view the apps then once launched.
+This will execute steps 1, 2, and 3 which will launch engines inside of a single engine like Docker for Mac, launch Interlock, and launch two demo apps; one using overlays, the other using host mode to publish ports. You can view the apps then once launched but you need to fake some DNS entries in your hosts file:
+
+```
+127.0.0.1 demo.interlock.mac demo-hostmode.interlock.mac demo-east.interlock.mac demo-west.interlock.mac
+```
 
 While executing the rest of the demo, it may be useful to utilize the `watch_services.sh` script which executes a `watch` on the service list to be able to see when the services are being created, updated, and ready.  I tend to leave this running in a 2nd terminal during a demo.
 
