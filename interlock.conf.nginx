@@ -27,11 +27,3 @@ PollInterval = "3s"
       WorkerProcesses = 1
       RlimitNoFile = 65535
       MaxConnections = 2048
-    [Extensions.default.Labels]
-      extension_name = "foo"
-    [Extensions.default.ContainerLabels]
-      test_container_label = "container"
-    [Extensions.default.ProxyContainerLabels]
-      test_proxy_label = "proxy"
-    [Extensions.default.ProxyLabels]
-      proxy_name = "bar"
