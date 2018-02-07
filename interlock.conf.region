@@ -2,6 +2,32 @@ ListenAddr = ":8080"
 DockerURL = "unix:///var/run/docker.sock"
 PollInterval = "3s"
 
+[Extensions]
+  [Extensions.default]
+    Image = "interlockdemo/interlock-extension-nginx:a2b1b323"
+    Args = ["-D"]
+    Constraints = ["node.role==manager"]
+    ServiceName = "interlock-ext"
+    ProxyImage = "nginx:alpine"
+    ProxyArgs = []
+    ProxyServiceName = "interlock-proxy"
+    ProxyConfigPath = "/etc/nginx/nginx.conf"
+    ProxyReplicas = 2
+    ProxyStopSignal = "SIGQUIT"
+    ProxyStopGracePeriod = "5s"
+    ProxyConstraints = ["node.labels.nodetype==loadbalancer"]
+    PublishMode = "ingress"
+    PublishedPort = 80
+    TargetPort = 80
+    PublishedSSLPort = 443
+    TargetSSLPort = 443
+    [Extensions.default.Config]
+      User = "nginx"
+      PidPath = "/var/run/proxy.pid"
+      WorkerProcesses = 1
+      RlimitNoFile = 65535
+      MaxConnections = 2048
+
 [Extensions.east]
   Image = "interlockdemo/interlock-extension-nginx:a2b1b323"
   Args = ["-D"]
@@ -15,9 +41,9 @@ PollInterval = "3s"
   ProxyStopGracePeriod = "5s"
   ProxyConstraints = ["node.labels.nodetype==loadbalancer"]
   PublishMode = "ingress"
-  PublishedPort = 80
+  PublishedPort = 81
   TargetPort = 80
-  PublishedSSLPort = 443
+  PublishedSSLPort = 444
   TargetSSLPort = 443
   ServiceCluster = "east"
   [Extensions.east.Config]
@@ -42,9 +68,9 @@ PollInterval = "3s"
   ProxyStopGracePeriod = "5s"
   ProxyConstraints = ["node.labels.nodetype==loadbalancer"]
   PublishMode = "ingress"
-  PublishedPort = 81
+  PublishedPort = 82
   TargetPort = 80
-  PublishedSSLPort = 444
+  PublishedSSLPort = 445
   TargetSSLPort = 443
   ServiceCluster = "west"
   [Extensions.west.Config]

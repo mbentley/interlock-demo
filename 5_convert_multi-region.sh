@@ -1,48 +1,18 @@
 #!/bin/bash
 
-echo ""
-echo "=================================="
-echo "Begin Interlock teardown..."
-echo "=================================="
-
 # talk to docker1
 export DOCKER_HOST="tcp://localhost:1001"
-
-# remove application services
-docker service rm demo-overlay demo-hostmode
-
-# remove interlock services
-docker service rm interlock interlock-ext interlock-proxy
-
-# remove interlock configs
-# shellcheck disable=SC2046
-docker config rm $(docker config ls -q)
-
-echo "=================================="
-echo "End Interlock teardown!"
-echo "=================================="
-echo ""
 
 echo ""
 echo "=================================="
 echo "Begin Interlock multi-region..."
 echo "=================================="
 
-# create overlay network
-docker network create -d overlay interlock
+# create new config
+docker config create service.interlock.conf-v2 interlock.conf.region
 
-# create config
-docker config create service.interlock.conf interlock.conf.region
-
-# create interlock service
-docker service create \
-    --name interlock \
-    --detach=false \
-    --mount src=/var/run/docker.sock,dst=/var/run/docker.sock,type=bind \
-    --constraint node.role==manager \
-    --network interlock \
-    --config src=service.interlock.conf,target=/config.toml \
-    interlockdemo/interlock:a2b1b323 -D run -c /config.toml
+# apply new config
+docker service update --config-rm service.interlock.conf --config-add src=service.interlock.conf-v2,target=/config.toml interlock
 
 echo "=================================="
 echo "End Interlock multi-region!"
@@ -69,7 +39,7 @@ docker service create \
   --env METADATA="east" \
   ehazlett/docker-demo:latest
 
-echo -e "\\nYour demo app should be available at http://demo-east.interlock.mac:80 shortly\\n"
+echo -e "\\nYour demo app should be available at http://demo-east.interlock.mac:81 shortly\\n"
 
 docker service create \
   --name demo-west \
@@ -81,7 +51,7 @@ docker service create \
   --env METADATA="west" \
   ehazlett/docker-demo:latest
 
-echo -e "\\nYour demo app should be available at http://demo-west.interlock.mac:81 shortly\\n"
+echo -e "\\nYour demo app should be available at http://demo-west.interlock.mac:82 shortly\\n"
 
 echo "=================================="
 echo "End app launch multi-region!"

@@ -57,8 +57,10 @@ docker run -d \
   -p 127.0.0.1:100${ENGINE_NUM}:2375 \
   -p 80:80 \
   -p 81:81 \
+  -p 82:82 \
   -p 443:443 \
   -p 444:444 \
+  -p 445:445 \
   -v /lib/modules:/lib/modules:ro \
   -v docker${ENGINE_NUM}:/var/lib/docker \
   -v docker${ENGINE_NUM}-etc:/etc/docker \
