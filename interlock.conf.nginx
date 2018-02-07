@@ -14,7 +14,7 @@ PollInterval = "3s"
     ProxyConfigPath = "/etc/nginx/nginx.conf"
     ProxyReplicas = 2
     ProxyStopSignal = "SIGQUIT"
-    ProxyStopGracePeriod = "3s"
+    ProxyStopGracePeriod = "5s"
     ProxyConstraints = ["node.labels.nodetype==loadbalancer"]
     PublishMode = "ingress"
     PublishedPort = 80
