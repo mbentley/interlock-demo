@@ -43,7 +43,7 @@ docker run -d \
   -v docker${ENGINE_NUM}:/var/lib/docker \
   -v docker${ENGINE_NUM}-etc:/etc/docker \
   --tmpfs /run \
-  mbentley/docker-in-docker:ee-test \
+  mbentley/docker-in-docker:18.09-ee \
   dockerd -s overlay2 -H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375 --registry-mirror http://mirror:5000
 
 ENGINE_NUM="2"
@@ -65,7 +65,7 @@ docker run -d \
   -v docker${ENGINE_NUM}:/var/lib/docker \
   -v docker${ENGINE_NUM}-etc:/etc/docker \
   --tmpfs /run \
-  mbentley/docker-in-docker:ee-test \
+  mbentley/docker-in-docker:18.09-ee \
   dockerd -s overlay2 -H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375 --registry-mirror http://mirror:5000
 
 ENGINE_NUM="3"
@@ -81,7 +81,7 @@ docker run -d \
   -v docker${ENGINE_NUM}:/var/lib/docker \
   -v docker${ENGINE_NUM}-etc:/etc/docker \
   --tmpfs /run \
-  mbentley/docker-in-docker:ee-test \
+  mbentley/docker-in-docker:18.09-ee \
   dockerd -s overlay2 -H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375 --registry-mirror http://mirror:5000
 
 echo "=================================="
