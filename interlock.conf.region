@@ -28,54 +28,54 @@ PollInterval = "3s"
       RlimitNoFile = 65535
       MaxConnections = 2048
 
-[Extensions.east]
-  Image = "interlockdemo/interlock-extension-nginx:a2b1b323"
-  Args = ["-D"]
-  ServiceName = "interlock-ext-east"
-  ProxyImage = "nginx:alpine"
-  ProxyArgs = []
-  ProxyServiceName = "interlock-proxy-east"
-  ProxyConfigPath = "/etc/nginx/nginx.conf"
-  ProxyReplicas = 2
-  ProxyStopSignal = "SIGQUIT"
-  ProxyStopGracePeriod = "5s"
-  ProxyConstraints = ["node.labels.nodetype==loadbalancer"]
-  PublishMode = "ingress"
-  PublishedPort = 81
-  TargetPort = 80
-  PublishedSSLPort = 444
-  TargetSSLPort = 443
-  ServiceCluster = "east"
-  [Extensions.east.Config]
-    User = "nginx"
-    Port = 80
-    SSLPort = 443
-    PidPath = "/var/run/proxy.pid"
-    WorkerProcesses = 1
-    RlimitNoFile = 65535
-    MaxConnections = 2048
+  [Extensions.east]
+    Image = "interlockdemo/interlock-extension-nginx:a2b1b323"
+    Args = ["-D"]
+    ServiceName = "interlock-ext-east"
+    ProxyImage = "nginx:alpine"
+    ProxyArgs = []
+    ProxyServiceName = "interlock-proxy-east"
+    ProxyConfigPath = "/etc/nginx/nginx.conf"
+    ProxyReplicas = 2
+    ProxyStopSignal = "SIGQUIT"
+    ProxyStopGracePeriod = "5s"
+    ProxyConstraints = ["node.labels.nodetype==loadbalancer"]
+    PublishMode = "ingress"
+    PublishedPort = 81
+    TargetPort = 80
+    PublishedSSLPort = 444
+    TargetSSLPort = 443
+    ServiceCluster = "east"
+    [Extensions.east.Config]
+      User = "nginx"
+      Port = 80
+      SSLPort = 443
+      PidPath = "/var/run/proxy.pid"
+      WorkerProcesses = 1
+      RlimitNoFile = 65535
+      MaxConnections = 2048
 
-[Extensions.west]
-  Image = "interlockdemo/interlock-extension-nginx:a2b1b323"
-  Args = ["-D"]
-  ServiceName = "interlock-ext-west"
-  ProxyImage = "nginx:alpine"
-  ProxyArgs = []
-  ProxyServiceName = "interlock-proxy-west"
-  ProxyConfigPath = "/etc/nginx/nginx.conf"
-  ProxyReplicas = 2
-  ProxyStopSignal = "SIGQUIT"
-  ProxyStopGracePeriod = "5s"
-  ProxyConstraints = ["node.labels.nodetype==loadbalancer"]
-  PublishMode = "ingress"
-  PublishedPort = 82
-  TargetPort = 80
-  PublishedSSLPort = 445
-  TargetSSLPort = 443
-  ServiceCluster = "west"
-  [Extensions.west.Config]
-    User = "nginx"
-    PidPath = "/var/run/proxy.pid"
-    WorkerProcesses = 1
-    RlimitNoFile = 65535
-    MaxConnections = 2048
+  [Extensions.west]
+    Image = "interlockdemo/interlock-extension-nginx:a2b1b323"
+    Args = ["-D"]
+    ServiceName = "interlock-ext-west"
+    ProxyImage = "nginx:alpine"
+    ProxyArgs = []
+    ProxyServiceName = "interlock-proxy-west"
+    ProxyConfigPath = "/etc/nginx/nginx.conf"
+    ProxyReplicas = 2
+    ProxyStopSignal = "SIGQUIT"
+    ProxyStopGracePeriod = "5s"
+    ProxyConstraints = ["node.labels.nodetype==loadbalancer"]
+    PublishMode = "ingress"
+    PublishedPort = 82
+    TargetPort = 80
+    PublishedSSLPort = 445
+    TargetSSLPort = 443
+    ServiceCluster = "west"
+    [Extensions.west.Config]
+      User = "nginx"
+      PidPath = "/var/run/proxy.pid"
+      WorkerProcesses = 1
+      RlimitNoFile = 65535
+      MaxConnections = 2048
