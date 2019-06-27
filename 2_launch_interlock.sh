@@ -21,7 +21,7 @@ docker service create \
     --constraint node.role==manager \
     --network interlock \
     --config src=service.interlock.conf,target=/config.toml \
-    interlockdemo/interlock:a2b1b323 -D run -c /config.toml
+    docker/ucp-interlock:3.1.3 run -c /config.toml
 
 echo "=================================="
 echo "End Interlock setup!"
