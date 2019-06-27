@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+  nginx:
+    image: dtr.demo.dckr.org/official/nginx:latest
+    deploy:
+      replicas: 1
+      endpoint_mode: dnsrr
+      labels:
+        com.docker.lb.hosts: ingresstest.demo.dckr.org
+        com.docker.lb.port: 80
+        com.docker.lb.network: bridge
+    ports:
+        - target: 80
+          protocol: tcp
+          mode: host
+    networks:
+      - bridge
+      - myoverlay-network
+networks:
+  myoverlay-network:
+  bridge:
+    external: true
+    name: bridge
